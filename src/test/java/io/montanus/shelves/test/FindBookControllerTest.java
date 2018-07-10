@@ -41,12 +41,12 @@ public class FindBookControllerTest {
         private final Catalog catalog;
         private final Display display;
 
-        public LibraryController(Catalog catalog, Display display) {
+        private LibraryController(Catalog catalog, Display display) {
             this.catalog = catalog;
             this.display = display;
         }
 
-        public void onISBN(String isbn) {
+        private void onISBN(String isbn) {
             display.displayBook(catalog.findBook(isbn));
         }
     }
