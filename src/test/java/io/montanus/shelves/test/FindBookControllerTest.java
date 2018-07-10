@@ -23,7 +23,7 @@ public class FindBookControllerTest {
         }});
 
         final LibraryController libraryController = new LibraryController(catalog, display);
-        libraryController.onISBN("::isbn for existing book::");
+        libraryController.onIsbn("::isbn for existing book::");
     }
 
     @Test
@@ -39,7 +39,19 @@ public class FindBookControllerTest {
         }});
 
         final LibraryController libraryController = new LibraryController(catalog, display);
-        libraryController.onISBN("::isbn for non existing book::");
+        libraryController.onIsbn("::isbn for non existing book::");
+    }
+
+    @Test
+    public void emptyIsbn() {
+        final Display display = context.mock(Display.class);
+
+        context.checking(new Expectations() {{
+            oneOf(display).displayEmptyIsbnMessage();
+        }});
+
+        final LibraryController libraryController = new LibraryController(null, display);
+        libraryController.onIsbn("");
     }
 
     private static class Book {
@@ -51,8 +63,8 @@ public class FindBookControllerTest {
 
     private interface Display {
         void displayBook(Book book);
-
         void displayBookNotFoundMessage(String isbn);
+        void displayEmptyIsbnMessage();
     }
 
     private static class LibraryController {
@@ -64,7 +76,11 @@ public class FindBookControllerTest {
             this.display = display;
         }
 
-        private void onISBN(String isbn) {
+        private void onIsbn(String isbn) {
+            if ("".equals(isbn)) {
+                display.displayEmptyIsbnMessage();
+                return;
+            }
             final Book book = catalog.findBook(isbn);
             if (book == null)
                 display.displayBookNotFoundMessage(isbn);
