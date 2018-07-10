@@ -54,9 +54,6 @@ public class FindBookControllerTest {
         libraryController.onIsbn("");
     }
 
-    private static class Book {
-    }
-
     private interface Catalog {
         Book findBook(String isbn);
     }
