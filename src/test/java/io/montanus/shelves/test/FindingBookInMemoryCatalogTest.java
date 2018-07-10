@@ -34,14 +34,14 @@ public class FindingBookInMemoryCatalogTest {
         }});
     }
 
-    private static class InMemoryCatalog {
+    private static class InMemoryCatalog implements Catalog {
         private final HashMap<String, Book> booksByIsbn;
 
         private InMemoryCatalog(HashMap<String, Book> booksByIsbn) {
             this.booksByIsbn = booksByIsbn;
         }
 
-        private Book findBook(String isbn) {
+        public Book findBook(String isbn) {
             return booksByIsbn.get(isbn);
         }
     }
