@@ -16,14 +16,14 @@ public class FindBookControllerTest {
         final Display display = context.mock(Display.class);
 
         context.checking(new Expectations() {{
-            allowing(catalog).findBook(with("12345"));
+            allowing(catalog).findBook(with("::isbn for existing book::"));
             will(returnValue(book));
 
             oneOf(display).displayBook(with(book));
         }});
 
         final LibraryController libraryController = new LibraryController(catalog, display);
-        libraryController.onISBN("12345");
+        libraryController.onISBN("::isbn for existing book::");
     }
 
     private static class Book {
