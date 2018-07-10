@@ -2,9 +2,7 @@ package io.montanus.shelves.test;
 
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,10 +10,16 @@ public class FindingBookInMemoryCatalogTest {
     @Test
     public void bookFound() {
         final Book book = new Book();
-        final InMemoryCatalog catalog = new InMemoryCatalog(new HashMap<String, Book>() {{
-            put("::isbn for existing book::", book);
-        }});
+        final InMemoryCatalog catalog = catalogWith("::isbn for existing book::", book);
         assertEquals(book, catalog.findBook("::isbn for existing book::"));
+    }
+
+    private InMemoryCatalog catalogWith(final String isbn, final Book book) {
+        return new InMemoryCatalog(new HashMap<String, Book>() {{
+            put("Definitely not " + isbn, new Book());
+            put(isbn, book);
+            put("Again, definitely not " + isbn, new Book());
+        }});
     }
 
     @Test
