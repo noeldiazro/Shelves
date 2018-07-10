@@ -1,20 +1,11 @@
 package io.montanus.shelves.test;
 
-import org.junit.Test;
-
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+public class FindingBookInMemoryCatalogTest extends FindingBookInCatalogContract {
 
-public class FindingBookInMemoryCatalogTest {
-    @Test
-    public void bookFound() {
-        final Book book = new Book();
-        final InMemoryCatalog catalog = catalogWith("::isbn for existing book::", book);
-        assertEquals(book, catalog.findBook("::isbn for existing book::"));
-    }
-
-    private InMemoryCatalog catalogWith(final String isbn, final Book book) {
+    @Override
+    protected Catalog catalogWith(final String isbn, final Book book) {
         return new InMemoryCatalog(new HashMap<String, Book>() {{
             put("Definitely not " + isbn, new Book());
             put(isbn, book);
@@ -22,13 +13,8 @@ public class FindingBookInMemoryCatalogTest {
         }});
     }
 
-    @Test
-    public void bookNotFound() {
-        final InMemoryCatalog catalog = catalogWithout("::isbn for non existing book::");
-        assertEquals(null, catalog.findBook("::isbn for non existing book::"));
-    }
-
-    private InMemoryCatalog catalogWithout(final String isbnToAvoid) {
+    @Override
+    protected Catalog catalogWithout(final String isbnToAvoid) {
         return new InMemoryCatalog(new HashMap<String, Book>() {{
             put("Anything but " + isbnToAvoid, new Book());
         }});
