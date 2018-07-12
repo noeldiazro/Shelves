@@ -16,12 +16,18 @@ public class DisplayMessagesInConsoleTest {
 
     private PrintStream productionSystemOut;
     private ByteArrayOutputStream canvas;
+    private ConsoleDisplay display;
 
     @Before
     public void hijackSystemOut() {
         productionSystemOut = System.out;
         canvas = new ByteArrayOutputStream();
         System.setOut(new PrintStream(canvas));
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        display = new ConsoleDisplay();
     }
 
     @After
@@ -31,18 +37,20 @@ public class DisplayMessagesInConsoleTest {
 
     @Test
     public void emptyIsbn() {
-        final ConsoleDisplay display = new ConsoleDisplay();
         display.displayEmptyIsbnMessage();
-        assertEquals(Collections.singletonList("ISBN Error: empty ISBN"), lines(canvas.toString()));
+
+        assertLines(Collections.singletonList("ISBN Error: empty ISBN"), canvas.toString());
     }
 
     @Test
     public void bookNotFound() {
-        final ConsoleDisplay display = new ConsoleDisplay();
-
         display.displayBookNotFoundMessage("12345");
 
-        assertEquals(Collections.singletonList("Book not found for 12345"), lines(canvas.toString()));
+        assertLines(Collections.singletonList("Book not found for 12345"), canvas.toString());
+    }
+
+    private void assertLines(List<String> expectedLines, String text) {
+        assertEquals(expectedLines, lines(text));
     }
 
     private List<String> lines(String text) {
