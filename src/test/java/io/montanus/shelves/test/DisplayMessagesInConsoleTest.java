@@ -55,7 +55,7 @@ public class DisplayMessagesInConsoleTest {
         }
 
         private void displayBookNotFoundMessage(String isbn) {
-            System.out.println("Book not found for 12345");
+            System.out.println(String.format("Book not found for %s", isbn));
         }
     }
 }
