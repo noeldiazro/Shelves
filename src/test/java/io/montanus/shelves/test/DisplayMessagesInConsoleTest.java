@@ -36,6 +36,15 @@ public class DisplayMessagesInConsoleTest {
         assertEquals(Collections.singletonList("ISBN Error: empty ISBN"), lines(canvas.toString()));
     }
 
+    @Test
+    public void bookNotFound() {
+        final ConsoleDisplay display = new ConsoleDisplay();
+
+        display.displayBookNotFoundMessage("12345");
+
+        assertEquals(Collections.singletonList("Book not found for 12345"), lines(canvas.toString()));
+    }
+
     private List<String> lines(String text) {
         return Arrays.asList(text.split(System.lineSeparator()));
     }
@@ -43,6 +52,10 @@ public class DisplayMessagesInConsoleTest {
     private static class ConsoleDisplay {
         private void displayEmptyIsbnMessage() {
             System.out.println("ISBN Error: empty ISBN");
+        }
+
+        private void displayBookNotFoundMessage(String isbn) {
+            System.out.println("Book not found for 12345");
         }
     }
 }
