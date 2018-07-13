@@ -52,7 +52,7 @@ public class DisplayMessagesInConsoleTest {
     @Test
     public void title() {
         display.displayTitle(new Book("::book title::"));
-        assertLines(Collections.singletonList("::book title::"), canvas.toString());
+        assertLines(Collections.singletonList("Title: ::book title::"), canvas.toString());
     }
 
     private void assertLines(List<String> expectedLines, String text) {
@@ -73,7 +73,7 @@ public class DisplayMessagesInConsoleTest {
         }
 
         private void displayTitle(Book book) {
-            render(book.getTitle());
+            render(String.format("Title: %s", book.getTitle()));
         }
 
         private void render(String text) {
