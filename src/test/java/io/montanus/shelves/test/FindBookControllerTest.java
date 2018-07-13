@@ -19,7 +19,7 @@ public class FindBookControllerTest {
             allowing(catalog).findBook(with("::isbn for existing book::"));
             will(returnValue(book));
 
-            oneOf(display).displayBook(with(book));
+            oneOf(display).displayTitle(with(book));
         }});
 
         final LibraryController libraryController = new LibraryController(catalog, display);
@@ -55,7 +55,7 @@ public class FindBookControllerTest {
     }
 
     private interface Display {
-        void displayBook(Book book);
+        void displayTitle(Book book);
         void displayBookNotFoundMessage(String isbn);
         void displayEmptyIsbnMessage();
     }
@@ -78,7 +78,7 @@ public class FindBookControllerTest {
             if (book == null)
                 display.displayBookNotFoundMessage(isbn);
             else
-                display.displayBook(book);
+                display.displayTitle(book);
         }
     }
 }
