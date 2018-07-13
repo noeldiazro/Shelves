@@ -2,7 +2,6 @@ package io.montanus.shelves.test;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -51,9 +50,8 @@ public class DisplayMessagesInConsoleTest {
     }
 
     @Test
-    @Ignore("Pending on adding title to book objects.")
     public void title() {
-        display.displayTitle(new Book("::irrelevant::"));
+        display.displayTitle(new Book("::book title::"));
         assertLines(Collections.singletonList("::book title::"), canvas.toString());
     }
 
@@ -75,7 +73,7 @@ public class DisplayMessagesInConsoleTest {
         }
 
         private void displayTitle(Book book) {
-
+            System.out.println(book.getTitle());
         }
     }
 }
