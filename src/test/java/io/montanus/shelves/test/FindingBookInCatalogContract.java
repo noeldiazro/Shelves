@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public abstract class FindingBookInCatalogContract {
     @Test
     public void bookFound() {
-        final Book book = new Book();
+        final Book book = new Book("::irrelevant::");
         final Catalog catalog = catalogWith("::isbn for existing book::", book);
         assertEquals(book, catalog.findBook("::isbn for existing book::"));
     }

@@ -2,6 +2,7 @@ package io.montanus.shelves.test;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -49,6 +50,13 @@ public class DisplayMessagesInConsoleTest {
         assertLines(Collections.singletonList("Book not found for 12345"), canvas.toString());
     }
 
+    @Test
+    @Ignore("Pending on adding title to book objects.")
+    public void title() {
+        display.displayTitle(new Book("::irrelevant::"));
+        assertLines(Collections.singletonList("::book title::"), canvas.toString());
+    }
+
     private void assertLines(List<String> expectedLines, String text) {
         assertEquals(expectedLines, lines(text));
     }
@@ -64,6 +72,10 @@ public class DisplayMessagesInConsoleTest {
 
         private void displayBookNotFoundMessage(String isbn) {
             System.out.println(String.format("Book not found for %s", isbn));
+        }
+
+        private void displayTitle(Book book) {
+
         }
     }
 }

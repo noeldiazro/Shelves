@@ -11,7 +11,7 @@ public class FindBookControllerTest {
 
     @Test
     public void bookFound() {
-        final Book book = new Book();
+        final Book book = new Book("::irrelevant::");
         final Catalog catalog = context.mock(Catalog.class);
         final Display display = context.mock(Display.class);
 
