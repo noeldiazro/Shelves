@@ -26,12 +26,12 @@ public class DisplayMessagesInConsoleTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         display = new ConsoleDisplay();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         System.setOut(productionSystemOut);
     }
 
