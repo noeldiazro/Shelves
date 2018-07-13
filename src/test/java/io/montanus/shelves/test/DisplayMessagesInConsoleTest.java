@@ -65,15 +65,19 @@ public class DisplayMessagesInConsoleTest {
 
     private static class ConsoleDisplay {
         private void displayEmptyIsbnMessage() {
-            System.out.println("ISBN Error: empty ISBN");
+            render("ISBN Error: empty ISBN");
         }
 
         private void displayBookNotFoundMessage(String isbn) {
-            System.out.println(String.format("Book not found for %s", isbn));
+            render(String.format("Book not found for %s", isbn));
         }
 
         private void displayTitle(Book book) {
-            System.out.println(book.getTitle());
+            render(book.getTitle());
+        }
+
+        private void render(String text) {
+            System.out.println(text);
         }
     }
 }
