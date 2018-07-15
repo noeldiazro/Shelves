@@ -63,21 +63,24 @@ public class DisplayMessagesInConsoleTest {
         return Arrays.asList(text.split(System.lineSeparator()));
     }
 
-    private static class ConsoleDisplay {
+    private static class ConsoleDisplay implements Display {
 
         private static final String EMPTY_ISBN_MESSAGE_FORMAT = "ISBN Error: empty ISBN";
         private static final String BOOK_NOT_FOUND_MESSAGE_FORMAT = "Book not found for %s";
         private static final String DISPLAY_PRICE_MESSAGE_FORMAT = "Title: %s";
 
-        private void displayEmptyIsbnMessage() {
+        @Override
+        public void displayEmptyIsbnMessage() {
             render(mergeTemplate(EMPTY_ISBN_MESSAGE_FORMAT));
         }
 
-        private void displayBookNotFoundMessage(String isbn) {
+        @Override
+        public void displayBookNotFoundMessage(String isbn) {
             render(mergeTemplate(BOOK_NOT_FOUND_MESSAGE_FORMAT, isbn));
         }
 
-        private void displayTitle(Book book) {
+        @Override
+        public void displayTitle(Book book) {
             render(mergeTemplate(DISPLAY_PRICE_MESSAGE_FORMAT, book.getTitle()));
         }
 
