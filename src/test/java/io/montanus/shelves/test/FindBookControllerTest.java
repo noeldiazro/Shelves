@@ -54,12 +54,6 @@ public class FindBookControllerTest {
         libraryController.onIsbn("");
     }
 
-    private interface Display {
-        void displayTitle(Book book);
-        void displayBookNotFoundMessage(String isbn);
-        void displayEmptyIsbnMessage();
-    }
-
     private static class LibraryController {
         private final Catalog catalog;
         private final Display display;
