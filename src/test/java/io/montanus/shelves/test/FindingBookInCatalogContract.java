@@ -1,5 +1,7 @@
 package io.montanus.shelves.test;
 
+import io.montanus.shelves.Book;
+import io.montanus.shelves.Catalog;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

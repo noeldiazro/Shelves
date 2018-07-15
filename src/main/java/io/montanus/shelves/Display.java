@@ -1,4 +1,4 @@
-package io.montanus.shelves.test;
+package io.montanus.shelves;
 
 public interface Display {
     void displayTitle(Book book);

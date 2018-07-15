@@ -1,5 +1,9 @@
 package io.montanus.shelves.test;
 
+import io.montanus.shelves.Book;
+import io.montanus.shelves.Catalog;
+import io.montanus.shelves.InMemoryCatalog;
+
 import java.util.HashMap;
 
 public class FindingBookInMemoryCatalogTest extends FindingBookInCatalogContract {
@@ -20,15 +24,4 @@ public class FindingBookInMemoryCatalogTest extends FindingBookInCatalogContract
         }});
     }
 
-    private static class InMemoryCatalog implements Catalog {
-        private final HashMap<String, Book> booksByIsbn;
-
-        private InMemoryCatalog(HashMap<String, Book> booksByIsbn) {
-            this.booksByIsbn = booksByIsbn;
-        }
-
-        public Book findBook(String isbn) {
-            return booksByIsbn.get(isbn);
-        }
-    }
 }

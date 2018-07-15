@@ -1,5 +1,9 @@
 package io.montanus.shelves.test;
 
+import io.montanus.shelves.Book;
+import io.montanus.shelves.Catalog;
+import io.montanus.shelves.Display;
+import io.montanus.shelves.LibraryController;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
@@ -54,25 +58,4 @@ public class FindBookControllerTest {
         libraryController.onIsbn("");
     }
 
-    private static class LibraryController {
-        private final Catalog catalog;
-        private final Display display;
-
-        private LibraryController(Catalog catalog, Display display) {
-            this.catalog = catalog;
-            this.display = display;
-        }
-
-        private void onIsbn(String isbn) {
-            if ("".equals(isbn)) {
-                display.displayEmptyIsbnMessage();
-                return;
-            }
-            final Book book = catalog.findBook(isbn);
-            if (book == null)
-                display.displayBookNotFoundMessage(isbn);
-            else
-                display.displayTitle(book);
-        }
-    }
 }

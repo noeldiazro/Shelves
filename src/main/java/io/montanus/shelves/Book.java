@@ -1,4 +1,4 @@
-package io.montanus.shelves.test;
+package io.montanus.shelves;
 
 public final class Book {
     private final String title;
