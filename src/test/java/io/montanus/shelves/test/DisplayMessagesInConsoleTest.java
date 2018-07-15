@@ -16,7 +16,7 @@ public class DisplayMessagesInConsoleTest {
 
     private PrintStream productionSystemOut;
     private ByteArrayOutputStream canvas;
-    private ConsoleDisplay display;
+    private EnglishConsoleDisplay display;
 
     @Before
     public void hijackSystemOut() {
@@ -27,7 +27,7 @@ public class DisplayMessagesInConsoleTest {
 
     @Before
     public void setUp() {
-        display = new ConsoleDisplay();
+        display = new EnglishConsoleDisplay();
     }
 
     @After
@@ -63,7 +63,7 @@ public class DisplayMessagesInConsoleTest {
         return Arrays.asList(text.split(System.lineSeparator()));
     }
 
-    private static class ConsoleDisplay implements Display {
+    private static class EnglishConsoleDisplay implements Display {
 
         private static final String EMPTY_ISBN_MESSAGE_FORMAT = "ISBN Error: empty ISBN";
         private static final String BOOK_NOT_FOUND_MESSAGE_FORMAT = "Book not found for %s";
