@@ -2,7 +2,7 @@ package io.montanus.shelves.test.ui;
 
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -13,11 +13,19 @@ import java.util.stream.Stream;
 public class ProcessTextPresenterTest {
     @Rule
     public final JUnitRuleMockery context = new JUnitRuleMockery();
+    private TextCommandInterpreter interpreter;
+    private TextSanitizer sanitizer;
+    private TextProcessor processor;
+
+    @Before
+    public void setUp() {
+        interpreter = context.mock(TextCommandInterpreter.class);
+        sanitizer = context.mock(TextSanitizer.class);
+        processor = new TextProcessor(sanitizer, interpreter);
+    }
 
     @Test
     public void zeroLines() {
-        final TextCommandInterpreter interpreter = context.mock(TextCommandInterpreter.class);
-        final TextSanitizer sanitizer = context.mock(TextSanitizer.class);
         final Stream<String> lines = Stream.empty();
 
         context.checking(new Expectations() {{
@@ -27,14 +35,11 @@ public class ProcessTextPresenterTest {
             never(interpreter);
         }});
 
-        final TextProcessor processor = new TextProcessor(sanitizer, interpreter);
         processor.process(lines);
     }
 
     @Test
     public void oneLine() {
-        final TextCommandInterpreter interpreter = context.mock(TextCommandInterpreter.class);
-        final TextSanitizer sanitizer = context.mock(TextSanitizer.class);
         final Stream<String> lines = Stream.of("12345");
 
         context.checking(new Expectations() {{
@@ -44,14 +49,11 @@ public class ProcessTextPresenterTest {
             oneOf(interpreter).interpret(with("12345"));
         }});
 
-        final TextProcessor processor = new TextProcessor(sanitizer, interpreter);
         processor.process(lines);
     }
 
     @Test
     public void severalLinesAllSane() {
-        final TextCommandInterpreter interpreter = context.mock(TextCommandInterpreter.class);
-        final TextSanitizer sanitizer = context.mock(TextSanitizer.class);
         final Stream<String> lines = Stream.of("12345", "23456", "99999");
 
         context.checking(new Expectations() {{
@@ -63,7 +65,6 @@ public class ProcessTextPresenterTest {
             oneOf(interpreter).interpret("99999");
         }});
 
-        final TextProcessor processor = new TextProcessor(sanitizer, interpreter);
         processor.process(lines);
     }
 
