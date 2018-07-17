@@ -68,6 +68,22 @@ public class ProcessTextPresenterTest {
         processor.process(lines);
     }
 
+    @Test
+    public void severalLinesSomeInsane() {
+        final Stream<String> lines = Stream.of("", "12345", "\t   ", "", "23456", " ", "99999", "\t\t");
+
+        context.checking(new Expectations() {{
+            allowing(sanitizer).sanitize(lines);
+            will(returnValue(Stream.of("12345", "23456", "99999")));
+
+            oneOf(interpreter).interpret("12345");
+            oneOf(interpreter).interpret("23456");
+            oneOf(interpreter).interpret("99999");
+        }});
+
+        processor.process(lines);
+    }
+
     private interface TextCommandInterpreter {
         void interpret(String textCommand);
     }
@@ -92,7 +108,7 @@ public class ProcessTextPresenterTest {
         }
 
         private void process(Stream<String> lines) {
-            lines.forEach((line) -> interpreter.interpret(line));
+            sanitizer.sanitize(lines).forEach((line) -> interpreter.interpret(line));
         }
     }
 }
