@@ -42,6 +42,21 @@ public class SanitizeLinesTest {
         assertEquals("::valid line::", sanitizedLines.findFirst().orElse(""));
     }
 
+    @Test
+    public void oneInvalidLine() {
+        Stream<String> lines = Stream.of("::invalid line::");
+        LineValidator validator = context.mock(LineValidator.class);
+
+        context.checking(new Expectations() {{
+            oneOf(validator).isValid("::invalid line::");
+            will(returnValue(false));
+        }});
+
+        ValidatorBackedSanitizer sanitizer = new ValidatorBackedSanitizer(validator);
+        Stream<String> sanitizedLines = sanitizer.sanitize(lines);
+        assertEquals(0, sanitizedLines.count());
+    }
+
     private interface LineValidator {
         boolean isValid(String line);
     }
@@ -55,13 +70,15 @@ public class SanitizeLinesTest {
 
         private Stream<String> sanitize(Stream<String> lines) {
             final Optional<String> maybeALine = lines.findFirst();
-            if (maybeALine.isPresent()) {
-                final String line = maybeALine.get();
-                validator.isValid(line);
-                return Stream.of(line);
-            }
-            else
+            if (!maybeALine.isPresent()) {
                 return Stream.empty();
+            } else {
+                final String line = maybeALine.get();
+                if (validator.isValid(line))
+                    return Stream.of(line);
+                else
+                    return Stream.empty();
+            }
         }
     }
 }
