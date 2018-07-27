@@ -40,13 +40,13 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void oneLine() {
-        final Stream<String> lines = Stream.of("12345");
+        final Stream<String> lines = Stream.of("::barcode1::");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("12345")));
+            will(returnValue(Stream.of("::barcode1::")));
 
-            oneOf(interpreter).interpret(with("12345"));
+            oneOf(interpreter).interpret(with("::barcode1::"));
         }});
 
         processor.process(lines);
@@ -54,15 +54,15 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void severalLinesAllSane() {
-        final Stream<String> lines = Stream.of("12345", "23456", "99999");
+        final Stream<String> lines = Stream.of("::barcode1::", "::barcode2::", "::barcode3::");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("12345", "23456", "99999")));
+            will(returnValue(Stream.of("::barcode1::", "::barcode2::", "::barcode3::")));
 
-            oneOf(interpreter).interpret("12345");
-            oneOf(interpreter).interpret("23456");
-            oneOf(interpreter).interpret("99999");
+            oneOf(interpreter).interpret("::barcode1::");
+            oneOf(interpreter).interpret("::barcode2::");
+            oneOf(interpreter).interpret("::barcode3::");
         }});
 
         processor.process(lines);
@@ -70,15 +70,15 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void severalLinesSomeInsane() {
-        final Stream<String> lines = Stream.of("", "12345", "\t   ", "", "23456", " ", "99999", "\t\t");
+        final Stream<String> lines = Stream.of("", "::barcode1::", "\t   ", "", "::barcode2::", " ", "::barcode3::", "\t\t");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("12345", "23456", "99999")));
+            will(returnValue(Stream.of("::barcode1::", "::barcode2::", "::barcode3::")));
 
-            oneOf(interpreter).interpret("12345");
-            oneOf(interpreter).interpret("23456");
-            oneOf(interpreter).interpret("99999");
+            oneOf(interpreter).interpret("::barcode1::");
+            oneOf(interpreter).interpret("::barcode2::");
+            oneOf(interpreter).interpret("::barcode3::");
         }});
 
         processor.process(lines);
