@@ -24,10 +24,30 @@ public class RejectBlankLinesTest {
         assertEquals(true, validator.isValid("a"));
     }
 
+    @Test
+    public void rejectsAnSpace() {
+        assertEquals(false, validator.isValid(" "));
+    }
+
+    @Test
+    public void rejectsTab() {
+        assertEquals(false, validator.isValid("\t"));
+    }
+
+    @Test
+    public void rejectsMixOfSpaces() {
+        assertEquals(false, validator.isValid(" \t\t    "));
+    }
+
+    @Test
+    public void acceptsLineWithInterspededSpaces() {
+        assertEquals(true, validator.isValid("   a\tb\t c   "));
+    }
+
     private static class BlankLineValidator implements LineValidator {
         @Override
         public boolean isValid(String line) {
-            return !"".equals(line);
+            return !"".equals(line.trim());
         }
     }
 }
