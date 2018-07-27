@@ -1,5 +1,7 @@
 package io.montanus.shelves.ui.test;
 
+import io.montanus.shelves.ui.BlankLineValidator;
+import io.montanus.shelves.ui.LineValidator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,10 +46,4 @@ public class RejectBlankLinesTest {
         assertEquals(true, validator.isValid("   a\tb\t c   "));
     }
 
-    private static class BlankLineValidator implements LineValidator {
-        @Override
-        public boolean isValid(String line) {
-            return !"".equals(line.trim());
-        }
-    }
 }

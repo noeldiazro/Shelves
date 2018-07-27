@@ -1,5 +1,11 @@
 package io.montanus.shelves;
 
+import io.montanus.shelves.ui.BlankLineValidator;
+import io.montanus.shelves.ui.LibraryTextCommandInterpreter;
+import io.montanus.shelves.ui.TextProcessor;
+import io.montanus.shelves.ui.TextSanitizerImpl;
+
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class Library {
@@ -16,5 +22,12 @@ public class Library {
         libraryController.onIsbn("23456");
         libraryController.onIsbn("99999");
         libraryController.onIsbn("");
+
+        final TextProcessor textProcessor =
+                new TextProcessor(
+                        new TextSanitizerImpl(new BlankLineValidator()),
+                        new LibraryTextCommandInterpreter(libraryController));
+
+        textProcessor.process(new InputStreamReader(System.in));
     }
 }

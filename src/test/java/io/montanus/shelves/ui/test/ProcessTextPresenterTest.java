@@ -1,13 +1,14 @@
 package io.montanus.shelves.ui.test;
 
+import io.montanus.shelves.ui.TextCommandInterpreter;
+import io.montanus.shelves.ui.TextProcessor;
+import io.montanus.shelves.ui.TextSanitizer;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.Reader;
 import java.util.stream.Stream;
 
 public class ProcessTextPresenterTest {
@@ -84,23 +85,4 @@ public class ProcessTextPresenterTest {
         processor.process(lines);
     }
 
-    private static class TextProcessor {
-
-        private final TextSanitizer sanitizer;
-        private final TextCommandInterpreter interpreter;
-
-        private TextProcessor(TextSanitizer sanitizer, TextCommandInterpreter interpreter) {
-
-            this.sanitizer = sanitizer;
-            this.interpreter = interpreter;
-        }
-
-        private void process(Reader reader) {
-            process(new BufferedReader(reader).lines());
-        }
-
-        private void process(Stream<String> lines) {
-            sanitizer.sanitize(lines).forEach((line) -> interpreter.interpret(line));
-        }
-    }
 }

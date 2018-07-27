@@ -1,4 +1,4 @@
-package io.montanus.shelves.ui.test;
+package io.montanus.shelves.ui;
 
 import java.util.stream.Stream;
 

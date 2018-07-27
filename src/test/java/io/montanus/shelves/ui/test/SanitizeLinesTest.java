@@ -1,5 +1,7 @@
 package io.montanus.shelves.ui.test;
 
+import io.montanus.shelves.ui.LineValidator;
+import io.montanus.shelves.ui.TextSanitizerImpl;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
@@ -92,16 +94,4 @@ public class SanitizeLinesTest {
         assert !iter1.hasNext() && !iter2.hasNext();
     }
 
-    private static class TextSanitizerImpl implements TextSanitizer {
-        private final LineValidator validator;
-
-        private TextSanitizerImpl(LineValidator validator) {
-            this.validator = validator;
-        }
-
-        @Override
-        public Stream<String> sanitize(Stream<String> lines) {
-            return lines.filter((line) -> validator.isValid(line));
-        }
-    }
 }

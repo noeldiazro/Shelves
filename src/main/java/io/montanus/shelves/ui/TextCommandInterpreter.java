@@ -1,4 +1,4 @@
-package io.montanus.shelves.ui.test;
+package io.montanus.shelves.ui;
 
 public interface TextCommandInterpreter {
     void interpret(String textCommand);
