@@ -1,19 +1,26 @@
 package io.montanus.shelves.ui.test;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class RejectBlankLinesTest {
+
+    private LineValidator validator;
+
+    @Before
+    public void setUp() {
+        validator = new BlankLineValidator();
+    }
+
     @Test
     public void rejectsEmptyLine() {
-        final LineValidator validator = new BlankLineValidator();
         assertEquals(false, validator.isValid(""));
     }
 
     @Test
     public void acceptsOneNonBlankCharacterLine() {
-        final LineValidator validator = new BlankLineValidator();
         assertEquals(true, validator.isValid("a"));
     }
 
