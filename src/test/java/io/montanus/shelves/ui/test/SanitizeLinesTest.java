@@ -5,6 +5,7 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -26,16 +27,41 @@ public class SanitizeLinesTest {
         assertEquals(0, sanitizedLines.count());
     }
 
+    @Test
+    public void oneValidLine() {
+        Stream<String> lines = Stream.of("::valid line::");
+        LineValidator validator = context.mock(LineValidator.class);
+
+        context.checking(new Expectations() {{
+            oneOf(validator).isValid("::valid line::");
+            will(returnValue(true));
+        }});
+
+        ValidatorBackedSanitizer sanitizer = new ValidatorBackedSanitizer(validator);
+        Stream<String> sanitizedLines = sanitizer.sanitize(lines);
+        assertEquals("::valid line::", sanitizedLines.findFirst().orElse(""));
+    }
+
     private interface LineValidator {
+        boolean isValid(String line);
     }
 
     private static class ValidatorBackedSanitizer {
-        private ValidatorBackedSanitizer(LineValidator validator) {
+        private final LineValidator validator;
 
+        private ValidatorBackedSanitizer(LineValidator validator) {
+            this.validator = validator;
         }
 
         private Stream<String> sanitize(Stream<String> lines) {
-            return Stream.empty();
+            final Optional<String> maybeALine = lines.findFirst();
+            if (maybeALine.isPresent()) {
+                final String line = maybeALine.get();
+                validator.isValid(line);
+                return Stream.of(line);
+            }
+            else
+                return Stream.empty();
         }
     }
 }
