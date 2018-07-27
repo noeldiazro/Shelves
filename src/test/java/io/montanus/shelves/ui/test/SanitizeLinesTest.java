@@ -2,6 +2,7 @@ package io.montanus.shelves.ui.test;
 
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -11,49 +12,47 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 
 public class SanitizeLinesTest {
+    private LineValidator validator;
+    private ValidatorBackedSanitizer sanitizer;
+
     @Rule
     public final JUnitRuleMockery context = new JUnitRuleMockery();
 
+    @Before
+    public void setUp() throws Exception {
+        validator = context.mock(LineValidator.class);
+        sanitizer = new ValidatorBackedSanitizer(validator);
+    }
+
     @Test
     public void zeroLines() {
-        LineValidator validator = context.mock(LineValidator.class);
-
         context.checking(new Expectations() {{
             never(validator);
         }});
 
-        ValidatorBackedSanitizer sanitizer = new ValidatorBackedSanitizer(validator);
         Stream<String> sanitizedLines = sanitizer.sanitize(Stream.empty());
         assertEquals(0, sanitizedLines.count());
     }
 
     @Test
     public void oneValidLine() {
-        Stream<String> lines = Stream.of("::valid line::");
-        LineValidator validator = context.mock(LineValidator.class);
-
         context.checking(new Expectations() {{
             oneOf(validator).isValid("::valid line::");
             will(returnValue(true));
         }});
 
-        ValidatorBackedSanitizer sanitizer = new ValidatorBackedSanitizer(validator);
-        Stream<String> sanitizedLines = sanitizer.sanitize(lines);
+        Stream<String> sanitizedLines = sanitizer.sanitize(Stream.of("::valid line::"));
         assertEquals("::valid line::", sanitizedLines.findFirst().orElse(""));
     }
 
     @Test
     public void oneInvalidLine() {
-        Stream<String> lines = Stream.of("::invalid line::");
-        LineValidator validator = context.mock(LineValidator.class);
-
         context.checking(new Expectations() {{
             oneOf(validator).isValid("::invalid line::");
             will(returnValue(false));
         }});
 
-        ValidatorBackedSanitizer sanitizer = new ValidatorBackedSanitizer(validator);
-        Stream<String> sanitizedLines = sanitizer.sanitize(lines);
+        Stream<String> sanitizedLines = sanitizer.sanitize(Stream.of("::invalid line::"));
         assertEquals(0, sanitizedLines.count());
     }
 
