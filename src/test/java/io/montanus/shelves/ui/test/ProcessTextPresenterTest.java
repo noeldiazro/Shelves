@@ -1,4 +1,4 @@
-package io.montanus.shelves.test.ui;
+package io.montanus.shelves.ui.test;
 
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
