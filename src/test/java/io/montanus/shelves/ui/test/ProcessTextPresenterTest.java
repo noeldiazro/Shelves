@@ -40,13 +40,13 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void oneLine() {
-        final Stream<String> lines = Stream.of("::barcode1::");
+        final Stream<String> lines = Stream.of("::isbn1::");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("::barcode1::")));
+            will(returnValue(Stream.of("::isbn1::")));
 
-            oneOf(interpreter).interpret(with("::barcode1::"));
+            oneOf(interpreter).interpret(with("::isbn1::"));
         }});
 
         processor.process(lines);
@@ -54,15 +54,15 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void severalLinesAllSane() {
-        final Stream<String> lines = Stream.of("::barcode1::", "::barcode2::", "::barcode3::");
+        final Stream<String> lines = Stream.of("::isbn1::", "::isbn2::", "::isbn3::");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("::barcode1::", "::barcode2::", "::barcode3::")));
+            will(returnValue(Stream.of("::isbn1::", "::isbn2::", "::isbn3::")));
 
-            oneOf(interpreter).interpret("::barcode1::");
-            oneOf(interpreter).interpret("::barcode2::");
-            oneOf(interpreter).interpret("::barcode3::");
+            oneOf(interpreter).interpret("::isbn1::");
+            oneOf(interpreter).interpret("::isbn2::");
+            oneOf(interpreter).interpret("::isbn3::");
         }});
 
         processor.process(lines);
@@ -70,15 +70,15 @@ public class ProcessTextPresenterTest {
 
     @Test
     public void severalLinesSomeInsane() {
-        final Stream<String> lines = Stream.of("", "::barcode1::", "\t   ", "", "::barcode2::", " ", "::barcode3::", "\t\t");
+        final Stream<String> lines = Stream.of("", "::isbn1::", "\t   ", "", "::isbn2::", " ", "::isbn3::", "\t\t");
 
         context.checking(new Expectations() {{
             allowing(sanitizer).sanitize(lines);
-            will(returnValue(Stream.of("::barcode1::", "::barcode2::", "::barcode3::")));
+            will(returnValue(Stream.of("::isbn1::", "::isbn2::", "::isbn3::")));
 
-            oneOf(interpreter).interpret("::barcode1::");
-            oneOf(interpreter).interpret("::barcode2::");
-            oneOf(interpreter).interpret("::barcode3::");
+            oneOf(interpreter).interpret("::isbn1::");
+            oneOf(interpreter).interpret("::isbn2::");
+            oneOf(interpreter).interpret("::isbn3::");
         }});
 
         processor.process(lines);
