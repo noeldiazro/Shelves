@@ -92,10 +92,6 @@ public class SanitizeLinesTest {
         assert !iter1.hasNext() && !iter2.hasNext();
     }
 
-    private interface LineValidator {
-        boolean isValid(String line);
-    }
-
     private static class ValidatorBackedSanitizer {
         private final LineValidator validator;
 
