@@ -88,10 +88,6 @@ public class ProcessTextPresenterTest {
         void interpret(String textCommand);
     }
 
-    private interface TextSanitizer {
-        Stream<String> sanitize(Stream<String> lines);
-    }
-
     private static class TextProcessor {
 
         private final TextSanitizer sanitizer;
