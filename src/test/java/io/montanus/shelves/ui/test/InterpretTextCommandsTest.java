@@ -1,5 +1,6 @@
 package io.montanus.shelves.ui.test;
 
+import io.montanus.shelves.IsbnListener;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
@@ -19,10 +20,6 @@ public class InterpretTextCommandsTest {
 
         final TextCommandInterpreter interpreter = new LibraryTextCommandInterpreter(listener);
         interpreter.interpret("::isbn::");
-    }
-
-    private interface IsbnListener {
-        void onIsbn(String isbn);
     }
 
     private static class LibraryTextCommandInterpreter implements TextCommandInterpreter {

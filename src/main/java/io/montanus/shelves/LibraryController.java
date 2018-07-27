@@ -1,6 +1,6 @@
 package io.montanus.shelves;
 
-public class LibraryController {
+public final class LibraryController implements IsbnListener {
     private final Catalog catalog;
     private final Display display;
 
@@ -9,6 +9,7 @@ public class LibraryController {
         this.display = display;
     }
 
+    @Override
     public void onIsbn(String isbn) {
         if ("".equals(isbn)) {
             display.displayEmptyIsbnMessage();
