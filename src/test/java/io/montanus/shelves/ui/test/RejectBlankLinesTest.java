@@ -11,10 +11,16 @@ public class RejectBlankLinesTest {
         assertEquals(false, validator.isValid(""));
     }
 
+    @Test
+    public void acceptsOneNonBlankCharacterLine() {
+        final LineValidator validator = new BlankLineValidator();
+        assertEquals(true, validator.isValid("a"));
+    }
+
     private static class BlankLineValidator implements LineValidator {
         @Override
         public boolean isValid(String line) {
-            return false;
+            return !"".equals(line);
         }
     }
 }
