@@ -84,10 +84,6 @@ public class ProcessTextPresenterTest {
         processor.process(lines);
     }
 
-    private interface TextCommandInterpreter {
-        void interpret(String textCommand);
-    }
-
     private static class TextProcessor {
 
         private final TextSanitizer sanitizer;
