@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.Optional;
+import java.util.Iterator;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +19,7 @@ public class SanitizeLinesTest {
     public final JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         validator = context.mock(LineValidator.class);
         sanitizer = new ValidatorBackedSanitizer(validator);
     }
@@ -56,6 +56,42 @@ public class SanitizeLinesTest {
         assertEquals(0, sanitizedLines.count());
     }
 
+    @Test
+    public void severalLines() {
+        context.checking(new Expectations() {{
+            oneOf(validator).isValid("::valid line 1::");
+            will(returnValue(true));
+            oneOf(validator).isValid("::invalid line 1::");
+            will(returnValue(false));
+            oneOf(validator).isValid("::invalid line 2::");
+            will(returnValue(false));
+            oneOf(validator).isValid("::valid line 2::");
+            will(returnValue(true));
+            oneOf(validator).isValid("::valid line 3::");
+            will(returnValue(true));
+            oneOf(validator).isValid("::invalid line 3::");
+            will(returnValue(false));
+        }});
+
+        Stream<String> sanitizedLines =
+                sanitizer.sanitize(Stream.of(
+                        "::valid line 1::",
+                        "::invalid line 1::",
+                        "::invalid line 2::",
+                        "::valid line 2::",
+                        "::valid line 3::",
+                        "::invalid line 3::"));
+
+        assertStreamEquals(Stream.of("::valid line 1::", "::valid line 2::", "::valid line 3::"), sanitizedLines);
+    }
+
+    private void assertStreamEquals(Stream<?> s1, Stream<?> s2) {
+        Iterator<?> iter1 = s1.iterator(), iter2 = s2.iterator();
+        while (iter1.hasNext() && iter2.hasNext())
+            assertEquals(iter1.next(), iter2.next());
+        assert !iter1.hasNext() && !iter2.hasNext();
+    }
+
     private interface LineValidator {
         boolean isValid(String line);
     }
@@ -68,16 +104,7 @@ public class SanitizeLinesTest {
         }
 
         private Stream<String> sanitize(Stream<String> lines) {
-            final Optional<String> maybeALine = lines.findFirst();
-            if (!maybeALine.isPresent()) {
-                return Stream.empty();
-            } else {
-                final String line = maybeALine.get();
-                if (validator.isValid(line))
-                    return Stream.of(line);
-                else
-                    return Stream.empty();
-            }
+            return lines.filter((line) -> validator.isValid(line));
         }
     }
 }
