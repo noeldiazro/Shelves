@@ -57,9 +57,12 @@ public class DisplayEnglishMessagesTest {
 
     @Test
     public void bookNotFound() {
-        display.displayBookNotFoundMessage("12345");
+        final PostOffice postOffice = context.mock(PostOffice.class);
+        context.checking(new Expectations() {{
+            oneOf(postOffice).sendMessage("Book not found for ::isbn::");
+        }});
 
-        assertLines(Collections.singletonList("Book not found for 12345"), canvas.toString());
+        new EnglishDisplay(postOffice).displayBookNotFoundMessage("::isbn::");
     }
 
     @Test
