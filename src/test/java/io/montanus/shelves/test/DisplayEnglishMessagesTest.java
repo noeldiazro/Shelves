@@ -67,8 +67,12 @@ public class DisplayEnglishMessagesTest {
 
     @Test
     public void title() {
-        display.displayTitle(new Book("::book title::"));
-        assertLines(Collections.singletonList("Title: ::book title::"), canvas.toString());
+        final PostOffice postOffice = context.mock(PostOffice.class);
+        context.checking(new Expectations(){{
+            oneOf(postOffice).sendMessage("Title: ::book title::");
+        }});
+
+        new EnglishDisplay(postOffice).displayTitle(new Book("::book title::"));
     }
 
     private void assertLines(List<String> expectedLines, String text) {
