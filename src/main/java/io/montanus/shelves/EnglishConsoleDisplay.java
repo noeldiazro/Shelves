@@ -34,10 +34,4 @@ public class EnglishConsoleDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
-    private static class ConsolePostOffice implements PostOffice {
-        @Override
-        public void sendMessage(String text) {
-            System.out.println(text);
-        }
-    }
 }
