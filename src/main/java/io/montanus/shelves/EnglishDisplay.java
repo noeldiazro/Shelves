@@ -3,7 +3,7 @@ package io.montanus.shelves;
 public class EnglishDisplay implements Display {
 
     private final PostOffice postOffice;
-    private final EnglishDictionary dictionary;
+    private final Dictionary dictionary;
 
     public EnglishDisplay(PostOffice postOffice) {
         this.postOffice = postOffice;
@@ -34,15 +34,18 @@ public class EnglishDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
-    private static class EnglishDictionary {
+    private static class EnglishDictionary implements Dictionary {
+        @Override
         public String getEmptyIsbnMessageFormat() {
             return "ISBN Error: empty ISBN";
         }
 
+        @Override
         public String getBookNotFoundMessageFormat() {
             return "Book not found for %s";
         }
 
+        @Override
         public String getDisplayPriceMessageFormat() {
             return "Title: %s";
         }
