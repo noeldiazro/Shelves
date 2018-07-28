@@ -6,6 +6,7 @@ import io.montanus.shelves.ui.TextProcessor;
 import io.montanus.shelves.ui.TextSanitizerImpl;
 
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 public class Library {
@@ -14,14 +15,11 @@ public class Library {
             put("12345", new Book("Clean Code"));
             put("23456", new Book("Effective Java"));
         }});
-        final Display display = new EnglishDisplay(new ConsolePostOffice());
+        final UdpPostOffice postOffice = new UdpPostOffice("localhost", 5358, Charset.defaultCharset());
+        final Display display = new EnglishDisplay(postOffice);
         final LibraryController libraryController =
                 new LibraryController(catalog, display);
 
-        libraryController.onIsbn("12345");
-        libraryController.onIsbn("23456");
-        libraryController.onIsbn("99999");
-        libraryController.onIsbn("");
 
         final TextProcessor textProcessor =
                 new TextProcessor(
