@@ -3,8 +3,12 @@ package io.montanus.shelves.test;
 import io.montanus.shelves.Book;
 import io.montanus.shelves.ConsolePostOffice;
 import io.montanus.shelves.EnglishDisplay;
+import io.montanus.shelves.PostOffice;
+import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -15,11 +19,14 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DisplayMessagesInConsoleTest {
+public class DisplayEnglishMessagesTest {
 
     private PrintStream productionSystemOut;
     private ByteArrayOutputStream canvas;
     private EnglishDisplay display;
+
+    @Rule
+    public final JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Before
     public void hijackSystemOut() {
@@ -40,9 +47,12 @@ public class DisplayMessagesInConsoleTest {
 
     @Test
     public void emptyIsbn() {
-        display.displayEmptyIsbnMessage();
+        final PostOffice postOffice = context.mock(PostOffice.class);
+        context.checking(new Expectations() {{
+            oneOf(postOffice).sendMessage("ISBN Error: empty ISBN");
+        }});
 
-        assertLines(Collections.singletonList("ISBN Error: empty ISBN"), canvas.toString());
+        new EnglishDisplay(postOffice).displayEmptyIsbnMessage();
     }
 
     @Test
