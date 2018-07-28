@@ -14,7 +14,7 @@ public class Library {
             put("12345", new Book("Clean Code"));
             put("23456", new Book("Effective Java"));
         }});
-        final Display display = new EnglishConsoleDisplay();
+        final Display display = new EnglishDisplay(new ConsolePostOffice());
         final LibraryController libraryController =
                 new LibraryController(catalog, display);
 

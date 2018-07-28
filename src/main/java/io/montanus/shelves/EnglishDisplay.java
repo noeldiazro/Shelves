@@ -1,14 +1,14 @@
 package io.montanus.shelves;
 
-public class EnglishConsoleDisplay implements Display {
+public class EnglishDisplay implements Display {
 
     private static final String EMPTY_ISBN_MESSAGE_FORMAT = "ISBN Error: empty ISBN";
     private static final String BOOK_NOT_FOUND_MESSAGE_FORMAT = "Book not found for %s";
     private static final String DISPLAY_PRICE_MESSAGE_FORMAT = "Title: %s";
     private final PostOffice postOffice;
 
-    public EnglishConsoleDisplay() {
-        postOffice = new ConsolePostOffice();
+    public EnglishDisplay(PostOffice postOffice) {
+        this.postOffice = postOffice;
     }
 
     @Override

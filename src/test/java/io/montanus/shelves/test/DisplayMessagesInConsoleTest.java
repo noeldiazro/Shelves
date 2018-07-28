@@ -1,7 +1,8 @@
 package io.montanus.shelves.test;
 
 import io.montanus.shelves.Book;
-import io.montanus.shelves.EnglishConsoleDisplay;
+import io.montanus.shelves.ConsolePostOffice;
+import io.montanus.shelves.EnglishDisplay;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class DisplayMessagesInConsoleTest {
 
     private PrintStream productionSystemOut;
     private ByteArrayOutputStream canvas;
-    private EnglishConsoleDisplay display;
+    private EnglishDisplay display;
 
     @Before
     public void hijackSystemOut() {
@@ -29,7 +30,7 @@ public class DisplayMessagesInConsoleTest {
 
     @Before
     public void setUp() {
-        display = new EnglishConsoleDisplay();
+        display = new EnglishDisplay(new ConsolePostOffice());
     }
 
     @After
