@@ -5,6 +5,11 @@ public class EnglishConsoleDisplay implements Display {
     private static final String EMPTY_ISBN_MESSAGE_FORMAT = "ISBN Error: empty ISBN";
     private static final String BOOK_NOT_FOUND_MESSAGE_FORMAT = "Book not found for %s";
     private static final String DISPLAY_PRICE_MESSAGE_FORMAT = "Title: %s";
+    private final ConsolePostOffice postOffice;
+
+    public EnglishConsoleDisplay() {
+        postOffice = new ConsolePostOffice();
+    }
 
     @Override
     public void displayEmptyIsbnMessage() {
@@ -22,10 +27,16 @@ public class EnglishConsoleDisplay implements Display {
     }
 
     private void render(String text) {
-        System.out.println(text);
+        postOffice.sendMessage(text);
     }
 
     private String mergeTemplate(String template, Object... placeholderValues) {
         return String.format(template, placeholderValues);
+    }
+
+    private static class ConsolePostOffice {
+        public void sendMessage(String text) {
+            System.out.println(text);
+        }
     }
 }
