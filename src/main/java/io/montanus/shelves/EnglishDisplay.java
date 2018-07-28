@@ -2,29 +2,29 @@ package io.montanus.shelves;
 
 public class EnglishDisplay implements Display {
 
-    private static final String EMPTY_ISBN_MESSAGE_FORMAT = "ISBN Error: empty ISBN";
-    private static final String BOOK_NOT_FOUND_MESSAGE_FORMAT = "Book not found for %s";
-    private static final String DISPLAY_PRICE_MESSAGE_FORMAT = "Title: %s";
     private final PostOffice postOffice;
+    private final EnglishDictionary dictionary;
 
     public EnglishDisplay(PostOffice postOffice) {
         this.postOffice = postOffice;
+        this.dictionary = new EnglishDictionary();
     }
 
     @Override
     public void displayEmptyIsbnMessage() {
-        render(mergeTemplate(EMPTY_ISBN_MESSAGE_FORMAT));
+        render(mergeTemplate(dictionary.getEmptyIsbnMessageFormat()));
     }
 
     @Override
     public void displayBookNotFoundMessage(String isbn) {
-        render(mergeTemplate(BOOK_NOT_FOUND_MESSAGE_FORMAT, isbn));
+        render(mergeTemplate(dictionary.getBookNotFoundMessageFormat(), isbn));
     }
 
     @Override
     public void displayTitle(Book book) {
-        render(mergeTemplate(DISPLAY_PRICE_MESSAGE_FORMAT, book.getTitle()));
+        render(mergeTemplate(dictionary.getDisplayPriceMessageFormat(), book.getTitle()));
     }
+
 
     private void render(String text) {
         postOffice.sendMessage(text);
@@ -34,4 +34,17 @@ public class EnglishDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
+    private static class EnglishDictionary {
+        public String getEmptyIsbnMessageFormat() {
+            return "ISBN Error: empty ISBN";
+        }
+
+        public String getBookNotFoundMessageFormat() {
+            return "Book not found for %s";
+        }
+
+        public String getDisplayPriceMessageFormat() {
+            return "Title: %s";
+        }
+    }
 }
