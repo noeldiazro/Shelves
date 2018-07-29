@@ -1,9 +1,6 @@
 package io.montanus.shelves.test;
 
-import io.montanus.shelves.Book;
-import io.montanus.shelves.Display;
-import io.montanus.shelves.EnglishDisplay;
-import io.montanus.shelves.PostOffice;
+import io.montanus.shelves.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
@@ -20,7 +17,7 @@ public class DisplayEnglishMessagesTest {
     @Before
     public void setUp() {
         postOffice = context.mock(PostOffice.class);
-        display = new EnglishDisplay(postOffice);
+        display = new TextDisplay(postOffice, new EnglishDictionary());
     }
 
     @Test
