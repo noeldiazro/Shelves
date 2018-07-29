@@ -17,7 +17,11 @@ public class TextDisplay implements Display {
 
     @Override
     public void displayBookNotFoundMessage(String isbn) {
-        render(new BookNotFoundTemplate(isbn).merge());
+        display(new BookNotFoundEnglishTemplate(isbn));
+    }
+
+    private void display(Template template) {
+        render(template.merge());
     }
 
     @Override
@@ -34,16 +38,17 @@ public class TextDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
-    private class BookNotFoundTemplate implements Template {
+    private class BookNotFoundEnglishTemplate implements Template {
+        private static final String BOOK_NOT_FOUND_FOR = "Book not found for";
         private String isbn;
 
-        private BookNotFoundTemplate(String isbn) {
+        private BookNotFoundEnglishTemplate(String isbn) {
             this.isbn = isbn;
         }
 
         @Override
         public String merge() {
-            return String.format(dictionary.getBookNotFoundMessageFormat(), isbn);
+            return String.format(BOOK_NOT_FOUND_FOR + " %s", isbn);
         }
     }
 }
