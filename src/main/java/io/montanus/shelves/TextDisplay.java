@@ -34,13 +34,14 @@ public class TextDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
-    private class BookNotFoundTemplate {
+    private class BookNotFoundTemplate implements Template {
         private String isbn;
 
         private BookNotFoundTemplate(String isbn) {
             this.isbn = isbn;
         }
 
+        @Override
         public String merge() {
             return String.format(dictionary.getBookNotFoundMessageFormat(), isbn);
         }
