@@ -17,7 +17,7 @@ public class TextDisplay implements Display {
 
     @Override
     public void displayBookNotFoundMessage(String isbn) {
-        render(mergeTemplate(dictionary.getBookNotFoundMessageFormat(), isbn));
+        render(new BookNotFoundTemplate(isbn).merge());
     }
 
     @Override
@@ -34,4 +34,15 @@ public class TextDisplay implements Display {
         return String.format(template, placeholderValues);
     }
 
+    private class BookNotFoundTemplate {
+        private String isbn;
+
+        private BookNotFoundTemplate(String isbn) {
+            this.isbn = isbn;
+        }
+
+        public String merge() {
+            return String.format(dictionary.getBookNotFoundMessageFormat(), isbn);
+        }
+    }
 }
