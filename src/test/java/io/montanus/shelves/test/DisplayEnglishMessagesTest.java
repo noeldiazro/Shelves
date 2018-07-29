@@ -17,7 +17,7 @@ public class DisplayEnglishMessagesTest {
     @Before
     public void setUp() {
         postOffice = context.mock(PostOffice.class);
-        display = new TextDisplay(postOffice, new EnglishDictionary());
+        display = new EnglishTextDisplay(postOffice, new EnglishDictionary());
     }
 
     @Test

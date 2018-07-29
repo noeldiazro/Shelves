@@ -1,11 +1,11 @@
 package io.montanus.shelves;
 
-public class TextDisplay implements Display {
+public class EnglishTextDisplay implements Display {
 
     private final PostOffice postOffice;
     private final Dictionary dictionary;
 
-    public TextDisplay(PostOffice postOffice, Dictionary dictionary) {
+    public EnglishTextDisplay(PostOffice postOffice, Dictionary dictionary) {
         this.postOffice = postOffice;
         this.dictionary = dictionary;
     }
@@ -20,22 +20,17 @@ public class TextDisplay implements Display {
         display(new BookNotFoundEnglishTemplate(isbn));
     }
 
+    @Override
+    public void displayTitle(Book book) {
+        display(new PriceEnglishTemplate(book));
+    }
+
     private void display(Template template) {
         render(template.merge());
     }
 
-    @Override
-    public void displayTitle(Book book) {
-        render(mergeTemplate(dictionary.getDisplayPriceMessageFormat(), book.getTitle()));
-    }
-
-
     private void render(String text) {
         postOffice.sendMessage(text);
-    }
-
-    private String mergeTemplate(String template, Object... placeholderValues) {
-        return String.format(template, placeholderValues);
     }
 
     private class BookNotFoundEnglishTemplate implements Template {
@@ -58,6 +53,20 @@ public class TextDisplay implements Display {
         @Override
         public String merge() {
             return String.format(ISBN_ERROR_EMPTY_ISBN);
+        }
+    }
+
+    private class PriceEnglishTemplate implements Template {
+        private static final String TITLE = "Title";
+        private Book book;
+
+        private PriceEnglishTemplate(Book book) {
+            this.book = book;
+        }
+
+        @Override
+        public String merge() {
+            return String.format(TITLE + ": %s", book.getTitle());
         }
     }
 }
