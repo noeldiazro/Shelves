@@ -16,7 +16,7 @@ public class Library {
             put("23456", new Book("Effective Java"));
         }});
         final UdpPostOffice postOffice = new UdpPostOffice("localhost", 5358, Charset.defaultCharset());
-        final Display display = new EnglishTextDisplay(postOffice, new EnglishDictionary());
+        final Display display = new EnglishTextDisplay(postOffice);
         final LibraryController libraryController =
                 new LibraryController(catalog, display);
 

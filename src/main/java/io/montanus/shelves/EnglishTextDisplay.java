@@ -3,11 +3,9 @@ package io.montanus.shelves;
 public class EnglishTextDisplay implements Display {
 
     private final PostOffice postOffice;
-    private final Dictionary dictionary;
 
-    public EnglishTextDisplay(PostOffice postOffice, Dictionary dictionary) {
+    public EnglishTextDisplay(PostOffice postOffice) {
         this.postOffice = postOffice;
-        this.dictionary = dictionary;
     }
 
     @Override
