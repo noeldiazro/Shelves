@@ -12,7 +12,7 @@ public class TextDisplay implements Display {
 
     @Override
     public void displayEmptyIsbnMessage() {
-        render(mergeTemplate(dictionary.getEmptyIsbnMessageFormat()));
+        display(new EmptyIsbnEnglishTemplate());
     }
 
     @Override
@@ -49,6 +49,15 @@ public class TextDisplay implements Display {
         @Override
         public String merge() {
             return String.format(BOOK_NOT_FOUND_FOR + " %s", isbn);
+        }
+    }
+
+    private class EmptyIsbnEnglishTemplate implements Template {
+        private static final String ISBN_ERROR_EMPTY_ISBN = "ISBN Error: empty ISBN";
+
+        @Override
+        public String merge() {
+            return String.format(ISBN_ERROR_EMPTY_ISBN);
         }
     }
 }
